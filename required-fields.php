@@ -71,7 +71,7 @@ function rf_enabled_settings()
 	$opt = get_option( 'rf_settings' );
 	if (!isset($opt['rf_enabled_settings']))
 	{
-		$value = '0';
+		$value = 'checked';
 	} else {
 		$value = $opt['rf_enabled_settings'];
 	}
@@ -82,7 +82,7 @@ function rf_title_settings()
 	$opt = get_option('rf_settings');
 	if (!isset($opt['rf_title_settings']))
 	{
-		$value = '';
+		$value = 'checked';
 		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_title_settings" style="display: none;" name="rf_settings[rf_title_settings]" '.$value.' /><label for="rf_title_settings"></label></div>';
 	} else {
 		$value = $opt['rf_title_settings'];
@@ -95,7 +95,7 @@ function rf_category_settings()
 	$opt = get_option('rf_settings');
 	if (!isset($opt['rf_category_settings']))
 	{
-		$value = '';
+		$value = 'checked';
 		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_category_settings" style="display: none;" name="rf_settings[rf_category_settings]" '.$value.' /><label for="rf_category_settings"></label></div>';
 	} else {
 		$value = $opt['rf_category_settings'];
@@ -108,7 +108,7 @@ function rf_tag_settings()
 	$opt = get_option('rf_settings');
 	if (!isset($opt['rf_tag_settings']))
 	{
-		$value = '';
+		$value = 'checked';
 		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_tag_settings" style="display: none;" name="rf_settings[rf_tag_settings]" '.$value.' /><label for="rf_tag_settings"></label></div>';
 	} else {
 		$value = $opt['rf_tag_settings'];
@@ -121,7 +121,7 @@ function rf_image_settings()
 	$opt = get_option('rf_settings');
 	if (!isset($opt['rf_image_settings']))
 	{
-		$value = '';
+		$value = 'checked';
 		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_image_settings" style="display: none;" name="rf_settings[rf_image_settings]" '.$value.' /><label for="rf_image_settings"></label></div>';
 	} else {
 		$value = $opt['rf_image_settings'];
