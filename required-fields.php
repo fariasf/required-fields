@@ -24,10 +24,10 @@ function rf_activated()
 {
 	$default_settings = array(
         'rf_enabled_settings' => '0',
-		'rf_title_settings' => 'checked',
-		'rf_category_settings' => 'checked',
-		'rf_tag_settings' => 'checked',
-		'rf_image_settings' => 'checked'
+		'rf_title_settings' => '0',
+		'rf_category_settings' => '0',
+		'rf_tag_settings' => '0',
+		'rf_image_settings' => '0'
     );
 	add_option("rf_settings", $default_settings);
 }
