@@ -318,7 +318,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 					<?php
 				}
 			}
-			if ( isset($opt['rf_tag_settings']) )
+			if ( isset($opt['rf_tag_settings']) ) 
 			{
 				global $post_type;
 				if($post_type=='post'){
