@@ -13,7 +13,22 @@ if you forgotten something it reminds you that you have forgot something
 
 == Description ==
 
-You Can enable Categories, Tags, thumbnail Validator, if you have forgotten to add Categories or Tags Or Thumbnail Image We can remind you With an simple Error
+### Required Fields
+
+You Can enable Categories, Tags, thumbnail, title if you have forgotten something We can remind you With an simple Warning.
+
+### The Features
+
+* Enable / Disable The Plugin
+* Set On / Off all the settings
+
+### Rate This Plugin
+
+* [Required Fields](https://wordpress.org/support/view/plugin-reviews/required-fields)
+
+### My Plugins
+
+* [Custom Preloader](https://wordpress.org/plugins/custom-preloader/)
 
 == Installation ==
 
