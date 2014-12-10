@@ -347,6 +347,9 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 				}
 			}
 		}
+		else
+		{
+		}
 	}
 	add_action('admin_footer-post.php', 'required_fields');
 	add_action('admin_footer-post-new.php', 'required_fields');
