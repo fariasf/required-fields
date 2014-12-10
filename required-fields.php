@@ -225,7 +225,11 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 	function required_fields()
 	{
 		$opt = get_option('rf_settings');
-		if( isset($opt['rf_enabled_settings']) )
+		if( !isset($opt['rf_enabled_settings']) )
+		{
+			echo '';
+		}
+		else
 		{
 			if ( isset($opt['rf_title_settings']) )
 			{
@@ -346,9 +350,6 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 					</script>";
 				}
 			}
-		}
-		else
-		{
 		}
 	}
 	add_action('admin_footer-post.php', 'required_fields');
