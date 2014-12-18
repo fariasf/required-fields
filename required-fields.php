@@ -1,9 +1,9 @@
 <?php
 /*
 * Plugin Name: Required Fields
-* Plugin URI: http://nikostsolakos.tk/wordpress/Required_Fields/Required_Fields.zip
+* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.1.zip
 * Description: Required Fields can check if you have fill in all the fields you have enabled
-* Version: 1.0
+* Version: 1.1
 * Author: NikosTsolakos
 * Author URI: http://nikostsolakos.tk
 * License: GPLv2
@@ -233,6 +233,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 		}
 		else
 		{
+			$rf_style = "{'background':'#FFEBE8', 'border':'#CC0000 solid 1px'}";
 			if ( isset($opt['rf_title_settings']) )
 			{
 				global $post_type;
@@ -245,7 +246,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 							.find('#title');
 							if (testervar.val().length < 1)
 							{
-								jQuery('[name^=\"post_title\"]').css('background', '#F96');
+								jQuery('[name^=\"post_title\"]').css( ".$rf_style." );
 								setTimeout(\"jQuery('#ajax-loading').css('visibility', 'hidden');\", 100);
 								alert('Title is required');
 								setTimeout(\"jQuery('#publish').removeClass('button-primary-disabled');\", 100);
@@ -266,7 +267,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 							jQuery(function($){
 								$('#publish, #save-post').click(function(e){
 									if($('#taxonomy-category input:checked').length==0){
-										jQuery('[id^=\"categorydiv\"]').css('background', '#F96');
+										jQuery('[id^=\"categorydiv\"]').css( ".$rf_style." );
 										alert('" . __('Category is required.', 'require-post-category') . "');
 										e.stopImmediatePropagation();
 										return false;
@@ -296,17 +297,17 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 			{
 				global $typenow;
 				if (in_array($typenow, array('post','page','mm_photo '))){
-					?>
-					<script language="javascript" type="text/javascript">
+					
+					echo "<script language='javascript' type='text/javascript'>
 						jQuery(document).ready(function() {
 							jQuery('#post').submit(function() {
-								if (jQuery("#set-post-thumbnail").find('img').size() > 0) {
+								if (jQuery('#set-post-thumbnail').find('img').size() > 0) {
 									jQuery('#ajax-loading').hide();
 									jQuery('#publish').removeClass('button-primary-disabled');
 									return true;
 								}else{
-									jQuery('[id^=\"postimagediv\"]').css('background', '#F96');
-									alert("Please Set An Image.");
+									jQuery('[id^=\'postimagediv\']').css( ".$rf_style." );
+									alert('Please Set An Image.');
 									jQuery('#ajax-loading').hide();
 									jQuery('#publish').removeClass('button-primary-disabled');
 									return false;
@@ -314,8 +315,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 								return false;
 							});
 						});
-					</script>
-					<?php
+					</script>";
 				}
 			}
 			if ( isset($opt['rf_tag_settings']) ) 
@@ -326,7 +326,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 					jQuery(function($){
 						$('#publish, #save-post').click(function(e){
 							if($('#post_tag .tagchecklist span').length==0){
-								jQuery('[id^=\"tagsdiv-post_tag\"]').css('background', '#F96');
+								jQuery('[id^=\"tagsdiv-post_tag\"]').css( ".$rf_style." );
 								alert('Please set Less than one Tag.');
 								e.stopImmediatePropagation();
 								return false;

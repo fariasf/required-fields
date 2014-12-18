@@ -4,7 +4,7 @@ Donate link: http://www.nikostsolakos.tk
 Tags: required, fields, categories, tags, thumbnail Image, required fields, required categories, required tags, required thumbnail Image
 Requires at least: 3.x
 Tested up to: 4.0.1
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,9 +50,14 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 5. Example Featured Image Required
 
 == Upgrade Notice ==
-= 1.0 =
+
+= 1.1 =
+* Update CSS & Fix Bugs
 
 == Changelog ==
 
 = 1.0 =
 * First stable release
+
+= 1.1 =
+* Update CSS & Fix Bugs
