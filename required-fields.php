@@ -1,9 +1,9 @@
 <?php
 /*
 * Plugin Name: Required Fields
-* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.1.zip
+* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.2.zip
 * Description: Required Fields can check if you have fill in all the fields you have enabled
-* Version: 1.1
+* Version: 1.2
 * Author: NikosTsolakos
 * Author URI: http://nikostsolakos.tk
 * License: GPLv2
@@ -27,7 +27,11 @@ function rf_activated()
 		'rf_title_settings' => '0',
 		'rf_category_settings' => '0',
 		'rf_tag_settings' => '0',
-		'rf_image_settings' => '0'
+		'rf_image_settings' => '0',
+		'rf_title_error' => 'Title is required',
+		'rf_cat_error' => 'Categories are required',
+		'rf_tag_error' => 'Please set less one tag',
+		'rf_img_error' => 'Post Thumbnail is required'
     );
 	add_option("rf_settings", $default_settings);
 }
@@ -54,6 +58,13 @@ function rf_settings_init()
 	add_settings_field('rf_category_settings', 'Set Categories Required:', 'rf_category_settings', __FILE__, 'rf_main_section');
 	add_settings_field('rf_tag_settings', 'Set Tags Required:', 'rf_tag_settings', __FILE__, 'rf_main_section');
 	add_settings_field('rf_image_settings', 'Set thumbnail Required:', 'rf_image_settings', __FILE__, 'rf_main_section');
+	// Error Logs
+	add_settings_section('rf_error_logs', '<div id="advanced"><a href="#collapse1">Set Error Logs</a></div>', 'rf_error_logs_text', rf_error_logs_text);
+	// Fields Of Error logs
+	add_settings_field('rf_title_error', 'Set Error For Title:', 'rf_title_error', __FILE__, 'rf_error_logs');
+	add_settings_field('rf_cat_error', 'Set Error For Categories:', 'rf_cat_error', __FILE__, 'rf_error_logs');
+	add_settings_field('rf_tag_error', 'Set Error For Tags:', 'rf_tag_error', __FILE__, 'rf_error_logs');
+	add_settings_field('rf_img_error', 'Set Error For Post thumbnail:', 'rf_img_error', __FILE__, 'rf_error_logs');
 
 }
 // Add rf_settings_init to Admin Section
@@ -77,6 +88,54 @@ function rf_enabled_settings()
 		$value = $opt['rf_enabled_settings'];
 		echo '<input type="checkbox" class="ch_location" value="None" id="slideThree" style="display: none;" name="rf_settings[rf_enabled_settings]" checked />';
 	}
+}
+
+function rf_error_logs_text()
+{
+	$opt = get_option( 'rf_settings' );
+	echo '<div id="collapse1" style="display:none"><div id="contact_main" style="width:100%; height:100%;"><div class="content" style=" padding: 5px; ">';
+	echo '<table class="form-table"><tbody>';
+	/* Title Error Logs */
+	if (!isset($opt['rf_title_error']))
+	{
+		$value = $default_settings['rf_title_error'];
+		echo '<tr><th scope="row">Set Error Log For Title</th><td><div><input type="text"  value="'.$value.'" id="rf_title_error" name="rf_settings[rf_title_error]" /></div></td></tr>';
+	} else {
+		$value = $opt['rf_title_error'];
+		echo '<tr><th scope="row">Set Error Log For Title</th><td> <div><input type="text"  value="'.$value.'" id="rf_title_error" name="rf_settings[rf_title_error]" /></div></td></tr>';
+	}
+	/* END Title Error Logs */
+	/* Category Error Logs */
+	if (!isset($opt['rf_cat_error']))
+	{
+		$value = $default_settings['rf_cat_error'];
+		echo '<tr><th scope="row">Set Error Log For Category</th><td><div><input type="text"  value="'.$value.'" id="rf_cat_error" name="rf_settings[rf_cat_error]" /></div></td></tr>';
+	} else {
+		$value = $opt['rf_cat_error'];
+		echo '<tr><th scope="row">Set Error Log For Category</th><td> <div><input type="text"  value="'.$value.'" id="rf_cat_error" name="rf_settings[rf_cat_error]" /></div></td></tr>';
+	}
+	/* END Category Error Logs */
+	/* Tag Error Logs */
+	if (!isset($opt['rf_tag_error']))
+	{
+		$value = $default_settings['rf_tag_error'];
+		echo '<tr><th scope="row">Set Error Log For Tag</th><td><div><input type="text"  value="'.$value.'" id="rf_tag_error" name="rf_settings[rf_tag_error]" /></div></td></tr>';
+	} else {
+		$value = $opt['rf_tag_error'];
+		echo '<tr><th scope="row">Set Error Log For Tag</th><td> <div><input type="text"  value="'.$value.'" id="rf_tag_error" name="rf_settings[rf_tag_error]" /></div></td></tr>';
+	}
+	/* END Tag Error Logs */
+	/* Post Image Error Logs */
+	if (!isset($opt['rf_img_error']))
+	{
+		$value = $default_settings['rf_img_error'];
+		echo '<tr><th scope="row">Set Error Log For Post Image</th><td><div><input type="text"  value="'.$value.'" id="rf_img_error" name="rf_settings[rf_img_error]" /></div></td></tr>';
+	} else {
+		$value = $opt['rf_img_error'];
+		echo '<tr><th scope="row">Set Error Log For Post Image</th><td> <div><input type="text"  value="'.$value.'" id="rf_img_error" name="rf_settings[rf_img_error]" /></div></td></tr>';
+	}
+	/* END Post Image Error Logs */
+	echo '</table></tbody></div></div></div>';
 }
 
 function rf_title_settings()
@@ -170,6 +229,7 @@ function rf_admin_panel()
 				<div class="postbox">
 					<?php settings_fields('rf_settings'); ?>
 					<?php do_settings_sections(__FILE__); ?>
+					<?php do_settings_sections(rf_error_logs_text); ?>
 					<style>
 					.content {
 						display: block;
@@ -199,8 +259,23 @@ function rf_admin_panel()
 						box-shadow: inset 0 1px 0 rgba(239, 115, 112, 1),0 1px 0 rgba(0,0,0,.15)!important;
 						border-radius: 25px!important;
 					}
+					#advanced {
+						text-align: center; border: solid 1px #D23733; background: #D23733;
+					}
+					#advanced a {
+						color: #ffffff;
+					}
 					</style>
 					<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+					<script>
+					$('#advanced a').click(function () {
+						var collapse_content_selector = $(this).attr('href');
+						var toggle_switch = $(this);
+						$(collapse_content_selector).slideToggle(function () {
+							$(this).is(':visible')? toggle_switch.text('Close Error Logs') : toggle_switch.text('Set Error Logs');
+						});
+					});
+					</script>
 					<p class="submit" style="margin-left: 10px;">
 						<input id="submit-rf-options" name="Submit" type="submit"  class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
 					</p>
@@ -248,7 +323,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 							{
 								jQuery('[name^=\"post_title\"]').css( ".$rf_style." );
 								setTimeout(\"jQuery('#ajax-loading').css('visibility', 'hidden');\", 100);
-								alert('Title is required');
+								alert('".$opt['rf_title_error']."');
 								setTimeout(\"jQuery('#publish').removeClass('button-primary-disabled');\", 100);
 								return false;
 							}
@@ -268,7 +343,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 								$('#publish, #save-post').click(function(e){
 									if($('#taxonomy-category input:checked').length==0){
 										jQuery('[id^=\"categorydiv\"]').css( ".$rf_style." );
-										alert('" . __('Category is required.', 'require-post-category') . "');
+										alert('" . __(''.$opt['rf_cat_error'].'', 'require-post-category') . "');
 										e.stopImmediatePropagation();
 										return false;
 									}else{
@@ -307,7 +382,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 									return true;
 								}else{
 									jQuery('[id^=\'postimagediv\']').css( ".$rf_style." );
-									alert('Please Set An Image.');
+									alert('".$opt['rf_img_error']."');
 									jQuery('#ajax-loading').hide();
 									jQuery('#publish').removeClass('button-primary-disabled');
 									return false;
@@ -327,7 +402,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 						$('#publish, #save-post').click(function(e){
 							if($('#post_tag .tagchecklist span').length==0){
 								jQuery('[id^=\"tagsdiv-post_tag\"]').css( ".$rf_style." );
-								alert('Please set Less than one Tag.');
+								alert('".$opt['rf_tag_error']."');
 								e.stopImmediatePropagation();
 								return false;
 							}else{
