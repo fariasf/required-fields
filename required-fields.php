@@ -5,7 +5,7 @@
 * Description: Required Fields can check if you have fill in all the fields you have enabled
 * Version: 1.2
 * Author: NikosTsolakos
-* Author URI: http://nikostsolakos.tk
+* Author URI: https://profiles.wordpress.org/nikostsolakos/#content-plugins
 * License: GPLv2
 */
 
