@@ -371,7 +371,7 @@ add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 			if ( isset($opt['rf_image_settings']) )
 			{
 				global $typenow;
-				if (in_array($typenow, array('post','page','mm_photo '))){
+				if (in_array($typenow, array('post'))){
 					
 					echo "<script language='javascript' type='text/javascript'>
 						jQuery(document).ready(function() {
