@@ -1,9 +1,9 @@
 <?php
 /*
 * Plugin Name: Required Fields
-* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.2.zip
+* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.3.zip
 * Description: Required Fields can check if you have fill in all the fields you have enabled
-* Version: 1.2
+* Version: 1.3
 * Author: NikosTsolakos
 * Author URI: https://profiles.wordpress.org/nikostsolakos/#content-plugins
 * License: GPLv2
@@ -24,6 +24,9 @@ function rf_activated()
 {
 	$default_settings = array(
         'rf_enabled_settings' => '0',
+        'rf_for_page_enabled' => '',
+		'rf_image_for_page' => '',
+		'rf_title_for_page' => '',
 		'rf_title_settings' => '0',
 		'rf_category_settings' => '0',
 		'rf_tag_settings' => '0',
@@ -48,6 +51,7 @@ function rf_deactivated()
 // =====
 // 2. Admin Settings
 // =====
+
 function rf_settings_init()
 {
 	register_setting('rf_settings', 'rf_settings', 'rf_settings_validate');
@@ -65,131 +69,21 @@ function rf_settings_init()
 	add_settings_field('rf_cat_error', 'Set Error For Categories:', 'rf_cat_error', __FILE__, 'rf_error_logs');
 	add_settings_field('rf_tag_error', 'Set Error For Tags:', 'rf_tag_error', __FILE__, 'rf_error_logs');
 	add_settings_field('rf_img_error', 'Set Error For Post thumbnail:', 'rf_img_error', __FILE__, 'rf_error_logs');
+	// For Page
+	add_settings_section('rf_for_page', '<div id="forpage"><a href="#collapse2">Required Fields For Page</a></div>', 'rf_for_page_text', rf_for_page_text);
+	// Fields For Page
+	add_settings_field('rf_for_page_enabled', 'Set Required Fields:', 'rf_for_page_enabled', __FILE__, 'rf_for_page');
+	add_settings_field('rf_image_for_page', 'Image For Page:', 'rf_image_for_page', __FILE__, 'rf_for_page');
+	add_settings_field('rf_title_for_page', 'Tag For Page:', 'rf_title_for_page', __FILE__, 'rf_for_page');
 
 }
 // Add rf_settings_init to Admin Section
 add_action('admin_init', 'rf_settings_init' );
 
+
 // Functions Of Fields Start
-function rf_settings_validate($input) {
-	return $input; 
-}
-function rf_main_section_text(){
-}
 
-function rf_enabled_settings()
-{
-	$opt = get_option( 'rf_settings' );
-	if (!isset($opt['rf_enabled_settings']))
-	{
-		$value = '';
-		echo '<input type="checkbox" class="ch_location" value="None" id="slideThree" style="display: none;" name="rf_settings[rf_enabled_settings]" '.$value.' />';
-	} else {
-		$value = $opt['rf_enabled_settings'];
-		echo '<input type="checkbox" class="ch_location" value="None" id="slideThree" style="display: none;" name="rf_settings[rf_enabled_settings]" checked />';
-	}
-}
-
-function rf_error_logs_text()
-{
-	$opt = get_option( 'rf_settings' );
-	echo '<div id="collapse1" style="display:none"><div id="contact_main" style="width:100%; height:100%;"><div class="content" style=" padding: 5px; ">';
-	echo '<table class="form-table"><tbody>';
-	/* Title Error Logs */
-	if (!isset($opt['rf_title_error']))
-	{
-		$value = $default_settings['rf_title_error'];
-		echo '<tr><th scope="row">Set Error Log For Title</th><td><div><input type="text"  value="'.$value.'" id="rf_title_error" name="rf_settings[rf_title_error]" /></div></td></tr>';
-	} else {
-		$value = $opt['rf_title_error'];
-		echo '<tr><th scope="row">Set Error Log For Title</th><td> <div><input type="text"  value="'.$value.'" id="rf_title_error" name="rf_settings[rf_title_error]" /></div></td></tr>';
-	}
-	/* END Title Error Logs */
-	/* Category Error Logs */
-	if (!isset($opt['rf_cat_error']))
-	{
-		$value = $default_settings['rf_cat_error'];
-		echo '<tr><th scope="row">Set Error Log For Category</th><td><div><input type="text"  value="'.$value.'" id="rf_cat_error" name="rf_settings[rf_cat_error]" /></div></td></tr>';
-	} else {
-		$value = $opt['rf_cat_error'];
-		echo '<tr><th scope="row">Set Error Log For Category</th><td> <div><input type="text"  value="'.$value.'" id="rf_cat_error" name="rf_settings[rf_cat_error]" /></div></td></tr>';
-	}
-	/* END Category Error Logs */
-	/* Tag Error Logs */
-	if (!isset($opt['rf_tag_error']))
-	{
-		$value = $default_settings['rf_tag_error'];
-		echo '<tr><th scope="row">Set Error Log For Tag</th><td><div><input type="text"  value="'.$value.'" id="rf_tag_error" name="rf_settings[rf_tag_error]" /></div></td></tr>';
-	} else {
-		$value = $opt['rf_tag_error'];
-		echo '<tr><th scope="row">Set Error Log For Tag</th><td> <div><input type="text"  value="'.$value.'" id="rf_tag_error" name="rf_settings[rf_tag_error]" /></div></td></tr>';
-	}
-	/* END Tag Error Logs */
-	/* Post Image Error Logs */
-	if (!isset($opt['rf_img_error']))
-	{
-		$value = $default_settings['rf_img_error'];
-		echo '<tr><th scope="row">Set Error Log For Post Image</th><td><div><input type="text"  value="'.$value.'" id="rf_img_error" name="rf_settings[rf_img_error]" /></div></td></tr>';
-	} else {
-		$value = $opt['rf_img_error'];
-		echo '<tr><th scope="row">Set Error Log For Post Image</th><td> <div><input type="text"  value="'.$value.'" id="rf_img_error" name="rf_settings[rf_img_error]" /></div></td></tr>';
-	}
-	/* END Post Image Error Logs */
-	echo '</table></tbody></div></div></div>';
-}
-
-function rf_title_settings()
-{
-	$opt = get_option('rf_settings');
-	if (!isset($opt['rf_title_settings']))
-	{
-		$value = '';
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_title_settings" style="display: none;" name="rf_settings[rf_title_settings]" '.$value.' /><label for="rf_title_settings"></label></div>';
-	} else {
-		$value = $opt['rf_title_settings'];
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_title_settings" style="display: none;" name="rf_settings[rf_title_settings]" checked /><label for="rf_title_settings"></label></div>';
-	}
-}
-
-function rf_category_settings()
-{
-	$opt = get_option('rf_settings');
-	if (!isset($opt['rf_category_settings']))
-	{
-		$value = '';
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_category_settings" style="display: none;" name="rf_settings[rf_category_settings]" '.$value.' /><label for="rf_category_settings"></label></div>';
-	} else {
-		$value = $opt['rf_category_settings'];
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_category_settings" style="display: none;" name="rf_settings[rf_category_settings]" checked /><label for="rf_category_settings"></label></div>';
-	}
-}
-
-function rf_tag_settings()
-{
-	$opt = get_option('rf_settings');
-	if (!isset($opt['rf_tag_settings']))
-	{
-		$value = '';
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_tag_settings" style="display: none;" name="rf_settings[rf_tag_settings]" '.$value.' /><label for="rf_tag_settings"></label></div>';
-	} else {
-		$value = $opt['rf_tag_settings'];
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_tag_settings" style="display: none;" name="rf_settings[rf_tag_settings]" checked /><label for="rf_tag_settings"></label></div>';
-	}
-}
-
-function rf_image_settings()
-{
-	$opt = get_option('rf_settings');
-	if (!isset($opt['rf_image_settings']))
-	{
-		$value = '';
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_image_settings" style="display: none;" name="rf_settings[rf_image_settings]" '.$value.' /><label for="rf_image_settings"></label></div>';
-	} else {
-		$value = $opt['rf_image_settings'];
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_image_settings" style="display: none;" name="rf_settings[rf_image_settings]" checked /><label for="rf_image_settings"></label></div>';
-	}
-
-}
+require_once('options/functions.php');
 
 // Functions Of Fields End
 
@@ -217,10 +111,17 @@ function rf_admin_panel()
 						<span>
 						<style><?php require_once('css/checkbox.css');?></style>
 							<section style=" margin-bottom: -30px !important; ">
-								<p>Required Fields: </p>
-									<div class="slideThree">
+								<p>Required Fields For Post: </p>
+									<div class="slideThree" style="margin: 0px 16%;">
 									<?php rf_enabled_settings();?>
 										<label for="slideThree"></label>
+									</div>
+							</section>
+							<section style=" margin-bottom: -30px !important; ">
+								<p>Required Fields For Page: </p>
+									<div class="slideThree" style="margin: 0px 16%;">
+									<?php rf_for_page_enabled();?>
+										<label for="rf_for_page_enabled"></label>
 									</div>
 							</section>
 						</span>
@@ -230,6 +131,8 @@ function rf_admin_panel()
 					<?php settings_fields('rf_settings'); ?>
 					<?php do_settings_sections(__FILE__); ?>
 					<?php do_settings_sections(rf_error_logs_text); ?>
+					<hr style="  border: solid 2px #000;  border-left: solid 0px;border-right: solid 0px;border-bottom: solid 0px;border-style: dotted;">
+					<?php do_settings_sections(rf_for_page_text); ?>
 					<style>
 					.content {
 						display: block;
@@ -265,6 +168,12 @@ function rf_admin_panel()
 					#advanced a {
 						color: #ffffff;
 					}
+					#forpage {
+						text-align: center; border: solid 1px #D23733; background: #D23733;
+					}
+					#forpage a {
+						color: #ffffff;
+					}
 					</style>
 					<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 					<script>
@@ -273,6 +182,15 @@ function rf_admin_panel()
 						var toggle_switch = $(this);
 						$(collapse_content_selector).slideToggle(function () {
 							$(this).is(':visible')? toggle_switch.text('Close Error Logs') : toggle_switch.text('Set Error Logs');
+						});
+					});
+					</script>
+					<script>
+					$('#forpage a').click(function () {
+						var collapse_content_selector = $(this).attr('href');
+						var toggle_switch = $(this);
+						$(collapse_content_selector).slideToggle(function () {
+							$(this).is(':visible')? toggle_switch.text('Close Required Fields For Page') : toggle_switch.text('Required Fields For Page');
 						});
 					});
 					</script>
@@ -299,136 +217,7 @@ function wp_rf_sc()
 }
 add_action( 'wp_enqueue_script', 'wp_rf_sc' );
 	// Check Functions And Run
-	function required_fields()
-	{
-		$opt = get_option('rf_settings');
-		if( !isset($opt['rf_enabled_settings']) )
-		{
-			echo '';
-		}
-		else
-		{
-			$rf_style = "{'background':'#FFEBE8', 'border':'#CC0000 solid 1px'}";
-			if ( isset($opt['rf_title_settings']) )
-			{
-				global $post_type;
-				if($post_type=='post')
-				{	
-					echo "<script type='text/javascript'>\n";
-					  echo "
-					  jQuery('#publish').click(function(){
-							var testervar = jQuery('[id^=\"titlediv\"]')
-							.find('#title');
-							if (testervar.val().length < 1)
-							{
-								jQuery('[name^=\"post_title\"]').css( ".$rf_style." );
-								setTimeout(\"jQuery('#ajax-loading').css('visibility', 'hidden');\", 100);
-								alert('".$opt['rf_title_error']."');
-								setTimeout(\"jQuery('#publish').removeClass('button-primary-disabled');\", 100);
-								return false;
-							}
-						});
-					  ";
-					echo "</script>\n";
-				}
-			}
-			
-			if ( isset($opt['rf_category_settings']) )
-			{
-				global $post_type;
-				if($post_type=='post')
-				{	
-					echo "<script>
-							jQuery(function($){
-								$('#publish, #save-post').click(function(e){
-									if($('#taxonomy-category input:checked').length==0){
-										jQuery('[id^=\"categorydiv\"]').css( ".$rf_style." );
-										alert('" . __(''.$opt['rf_cat_error'].'', 'require-post-category') . "');
-										e.stopImmediatePropagation();
-										return false;
-									}else{
-										return true;
-									}
-								});
-								var publish_click_events = $('#publish').data('events').click;
-								if(publish_click_events){
-									if(publish_click_events.length>1){
-										publish_click_events.unshift(publish_click_events.pop());
-									}
-								}
-								if($('#save-post').data('events') != null){
-									var save_click_events = $('#save-post').data('events').click;
-									if(save_click_events){
-									  if(save_click_events.length>1){
-										  save_click_events.unshift(save_click_events.pop());
-									  }
-									}
-								}
-							});
-							</script>";
-				}
-			}
-			if ( isset($opt['rf_image_settings']) )
-			{
-				global $typenow;
-				if (in_array($typenow, array('post'))){
-					
-					echo "<script language='javascript' type='text/javascript'>
-						jQuery(document).ready(function() {
-							jQuery('#post').submit(function() {
-								if (jQuery('#set-post-thumbnail').find('img').size() > 0) {
-									jQuery('#ajax-loading').hide();
-									jQuery('#publish').removeClass('button-primary-disabled');
-									return true;
-								}else{
-									jQuery('[id^=\'postimagediv\']').css( ".$rf_style." );
-									alert('".$opt['rf_img_error']."');
-									jQuery('#ajax-loading').hide();
-									jQuery('#publish').removeClass('button-primary-disabled');
-									return false;
-								}
-								return false;
-							});
-						});
-					</script>";
-				}
-			}
-			if ( isset($opt['rf_tag_settings']) ) 
-			{
-				global $post_type;
-				if($post_type=='post'){
-					echo "<script>
-					jQuery(function($){
-						$('#publish, #save-post').click(function(e){
-							if($('#post_tag .tagchecklist span').length==0){
-								jQuery('[id^=\"tagsdiv-post_tag\"]').css( ".$rf_style." );
-								alert('".$opt['rf_tag_error']."');
-								e.stopImmediatePropagation();
-								return false;
-							}else{
-								return true;
-							}
-						});
-						var publish_click_events = $('#publish').data('events').click;
-						if(publish_click_events){
-							if(publish_click_events.length>1){
-								publish_click_events.unshift(publish_click_events.pop());
-							}
-						}
-						if($('#save-post').data('events') != null){
-							var save_click_events = $('#save-post').data('events').click;
-							if(save_click_events){
-							  if(save_click_events.length>1){
-								  save_click_events.unshift(save_click_events.pop());
-							  }
-							}
-						}
-					});
-					</script>";
-				}
-			}
-		}
-	}
+	require_once('options/frontend.php');
 	add_action('admin_footer-post.php', 'required_fields');
 	add_action('admin_footer-post-new.php', 'required_fields');
 ?>
