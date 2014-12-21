@@ -3,7 +3,7 @@ Contributors: NikosTsolakos
 Donate link: http://www.nikostsolakos.tk
 Tags: required, fields, categories, tags, thumbnail Image, required fields, required categories, required tags, required thumbnail Image
 Requires at least: 3.x
-Tested up to: 4.0.1
+Tested up to: 4.1
 Stable tag: 1.4 
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
