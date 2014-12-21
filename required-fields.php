@@ -56,7 +56,7 @@ function rf_settings_init()
 {
 	register_setting('rf_settings', 'rf_settings', 'rf_settings_validate');
 	// Main Section
-	add_settings_section('rf_main_section', '<h3 style="text-align: center;border: solid 1px #D23733;background: #D23733;color: white;">Required Fields</h3>', 'rf_main_section_text', __FILE__);
+	add_settings_section('rf_main_section', '<h3 style="text-align: center;border: solid 1px #D23733;background: #D23733;color: white;">Required Fields For Post</h3>', 'rf_main_section_text', __FILE__);
 	// Fields Of Main Section
 	add_settings_field('rf_title_settings', 'Set Title Required:', 'rf_title_settings', __FILE__, 'rf_main_section');
 	add_settings_field('rf_category_settings', 'Set Categories Required:', 'rf_category_settings', __FILE__, 'rf_main_section');
