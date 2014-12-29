@@ -1,9 +1,9 @@
 <?php
 /*
 * Plugin Name: Required Fields
-* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.4.zip
-* Description: Required Fields can check if you have fill in all the fields you have enabled
-* Version: 1.4
+* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.5.zip
+* Description: Required Fields can check if you have fill in all the fields
+* Version: 1.5
 * Author: NikosTsolakos
 * Author URI: https://profiles.wordpress.org/nikostsolakos/#content-plugins
 * License: GPLv2
@@ -25,6 +25,8 @@ function rf_activated()
 	$default_settings = array(
         'rf_enabled_settings' => '0',
         'rf_for_page_enabled' => '',
+        'rf_post_draft' => '',
+        'rf_page_draft' => '',
 		'rf_image_for_page' => '',
 		'rf_title_for_page' => '',
 		'rf_title_settings' => '0',
@@ -58,6 +60,7 @@ function rf_settings_init()
 	// Main Section
 	add_settings_section('rf_main_section', '<h3 style="text-align: center;border: solid 1px #D23733;background: #D23733;color: white;">Required Fields For Post</h3>', 'rf_main_section_text', __FILE__);
 	// Fields Of Main Section
+	add_settings_field('rf_post_draft', 'Save Draft For Post:', 'rf_post_draft', __FILE__, 'rf_main_section');
 	add_settings_field('rf_title_settings', 'Set Title Required:', 'rf_title_settings', __FILE__, 'rf_main_section');
 	add_settings_field('rf_category_settings', 'Set Categories Required:', 'rf_category_settings', __FILE__, 'rf_main_section');
 	add_settings_field('rf_tag_settings', 'Set Tags Required:', 'rf_tag_settings', __FILE__, 'rf_main_section');
@@ -75,6 +78,7 @@ function rf_settings_init()
 	add_settings_field('rf_for_page_enabled', 'Set Required Fields:', 'rf_for_page_enabled', __FILE__, 'rf_for_page');
 	add_settings_field('rf_image_for_page', 'Image For Page:', 'rf_image_for_page', __FILE__, 'rf_for_page');
 	add_settings_field('rf_title_for_page', 'Tag For Page:', 'rf_title_for_page', __FILE__, 'rf_for_page');
+	add_settings_field('rf_page_draft', 'Save Drafts For Page:', 'rf_page_draft', __FILE__, 'rf_for_page');
 
 }
 // Add rf_settings_init to Admin Section
@@ -122,6 +126,18 @@ function rf_for_page_text()
 	$opt = get_option( 'rf_settings' );
 	echo '<div id="collapse2" style="display:none"><div id="contact_main" style="width:100%; height:100%;"><div class="content" style=" padding: 5px; ">';
 	echo '<table class="form-table"><tbody>';
+	
+	/* SAVE DRAFT FOR PAGE */
+	if (!isset($opt['rf_page_draft']))
+	{
+		$value = $default_settings['rf_page_draft'];
+		echo '<tr><th scope="row">Save Draft For Page: </th><td><div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_page_draft" style="display: none;" name="rf_settings[rf_page_draft]" '.$value.' /><label for="rf_page_draft"></label></div></td></tr>';
+	} else {
+		$value = $opt['rf_page_draft'];
+		echo '<tr><th scope="row">Save Draft For Page: </th><td><div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_page_draft" style="display: none;" name="rf_settings[rf_page_draft]" checked /><label for="rf_page_draft"></label></div></td></tr>';
+	}
+	/* END SAVE DRAFT FOR PAGE */
+	
 	/* FOR PAGE TITLE */
 	if (!isset($opt['rf_title_for_page']))
 	{
@@ -193,6 +209,20 @@ function rf_error_logs_text()
 	}
 	/* END Post Image Error Logs */
 	echo '</table></tbody></div></div></div>';
+}
+
+function rf_post_draft()
+{
+	$opt = get_option('rf_settings');
+	if (!isset($opt['rf_post_draft']))
+	{
+		$value = '';
+		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_post_draft" style="display: none;" name="rf_settings[rf_post_draft]" '.$value.' /><label for="rf_post_draft"></label></div>';
+	} else {
+		$value = $opt['rf_post_draft'];
+		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_post_draft" style="display: none;" name="rf_settings[rf_post_draft]" checked /><label for="rf_post_draft"></label></div>';
+	}
+
 }
 
 function rf_title_settings()
@@ -293,9 +323,9 @@ function rf_admin_panel()
 				<div class="postbox">
 					<?php settings_fields('rf_settings'); ?>
 					<?php do_settings_sections(__FILE__); ?>
-					<?php do_settings_sections(rf_error_logs_text); ?>
-					<hr style="  border: solid 2px #000;  border-left: solid 0px;border-right: solid 0px;border-bottom: solid 0px;border-style: dotted;">
 					<?php do_settings_sections(rf_for_page_text); ?>
+					<hr style="  border: solid 2px #000;  border-left: solid 0px;border-right: solid 0px;border-bottom: solid 0px;border-style: dotted;">
+					<?php do_settings_sections(rf_error_logs_text); ?>
 					<style>
 					.content {
 						display: block;
@@ -399,9 +429,8 @@ function required_fields()
 					{	
 						echo "<script type='text/javascript'>\n";
 						  echo "
-						  jQuery('#publish').click(function(){
-								var testervar = jQuery('[id^=\"titlediv\"]')
-								.find('#title');
+						  jQuery('#publish"; if (isset($opt['rf_page_draft'])) {echo ', #save-post';} echo "').click(function(){
+								var testervar = jQuery('[id^=\"titlediv\"]').find('#title');
 								if (testervar.val().length < 1)
 								{
 									jQuery('[name^=\"post_title\"]').css( ".$rf_style." );
@@ -421,7 +450,7 @@ function required_fields()
 					{	
 						echo "<script type='text/javascript'>\n";
 						  echo "
-						  jQuery('#publish').click(function(){
+						  jQuery('#publish"; if (isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').click(function(){
 								var testervar = jQuery('[id^=\"titlediv\"]')
 								.find('#title');
 								if (testervar.val().length < 1)
@@ -446,7 +475,7 @@ function required_fields()
 				{	
 					echo "<script>
 							jQuery(function($){
-								$('#publish, #save-post').click(function(e){
+								$('#publish"; if (isset($opt['rf_page_draft']) || isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').click(function(e){
 									if($('#taxonomy-category input:checked').length==0){
 										jQuery('[id^=\"categorydiv\"]').css( ".$rf_style." );
 										alert('" . __(''.$opt['rf_cat_error'].'', 'require-post-category') . "');
@@ -482,20 +511,15 @@ function required_fields()
 					if(in_array($typenow, array('post','page')))
 					{
 						echo "<script language='javascript' type='text/javascript'>
-							jQuery(document).ready(function() {
+							jQuery(function($){
 								jQuery('#post').submit(function() {
-									if (jQuery('#set-post-thumbnail').find('img').size() > 0) {
-										jQuery('#ajax-loading').hide();
-										jQuery('#publish').removeClass('button-primary-disabled');
-										return true;
-									}else{
+									if (jQuery('#set-post-thumbnail').find('img').size() < 1) {
 										jQuery('[id^=\'postimagediv\']').css( ".$rf_style." );
 										alert('".$opt['rf_img_error']."');
 										jQuery('#ajax-loading').hide();
-										jQuery('#publish').removeClass('button-primary-disabled');
+										jQuery('#publish"; if (isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').removeClass('button-primary-disabled');
 										return false;
 									}
-									return false;
 								});
 							});
 						</script>";
@@ -507,20 +531,15 @@ function required_fields()
 					if(in_array($typenow, array('post')))
 					{
 						echo "<script language='javascript' type='text/javascript'>
-							jQuery(document).ready(function() {
+							jQuery(function($){
 								jQuery('#post').submit(function() {
-									if (jQuery('#set-post-thumbnail').find('img').size() > 0) {
-										jQuery('#ajax-loading').hide();
-										jQuery('#publish').removeClass('button-primary-disabled');
-										return true;
-									}else{
+									if (jQuery('#set-post-thumbnail').find('img').size() < 1) {
 										jQuery('[id^=\'postimagediv\']').css( ".$rf_style." );
 										alert('".$opt['rf_img_error']."');
 										jQuery('#ajax-loading').hide();
-										jQuery('#publish').removeClass('button-primary-disabled');
+										jQuery('#publish"; if (isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').removeClass('button-primary-disabled');
 										return false;
 									}
-									return false;
 								});
 							});
 						</script>";
@@ -534,7 +553,7 @@ function required_fields()
 				if($post_type=='post'){
 					echo "<script>
 					jQuery(function($){
-						$('#publish, #save-post').click(function(e){
+						$('#publish"; if (isset($opt['rf_page_draft']) || isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').click(function(e){
 							if($('#post_tag .tagchecklist span').length==0){
 								jQuery('[id^=\"tagsdiv-post_tag\"]').css( ".$rf_style." );
 								alert('".$opt['rf_tag_error']."');

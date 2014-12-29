@@ -4,7 +4,7 @@ Donate link: http://www.nikostsolakos.tk
 Tags: required, fields, categories, tags, thumbnail Image, required fields, required categories, required tags, required thumbnail Image
 Requires at least: 3.x
 Tested up to: 4.1
-Stable tag: 1.4 
+Stable tag: 1.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,7 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 * Set On / Off all the settings
 * Set Custom Alerts Message
 * Set Required Fields For Pages
+* Set On/Off Required Fields For Drafts
 
 ### Rate This Plugin
 
@@ -63,7 +64,10 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 * Update CSS & Fix Bugs
 
 = 1.4 =
-* Set Required Fields For Pages & Fix Bugs
+* Set Required Fields For Pages & important Bugs
+
+= 1.5 =
+* Set On/Off Required Fields For Drafts
 
 == Changelog ==
 
@@ -80,4 +84,7 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 * Update CSS & Fix Bugs
 
 = 1.4 =
-* Set Required Fields For Pages & Fix Bugs
+* Set Required Fields For Pages & important Bugs
+
+= 1.5 =
+* Set On/Off Required Fields For Drafts
