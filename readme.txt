@@ -73,24 +73,24 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 
 = 1.5 =
 * Set On/Off Required Fields For Drafts
-* [1.5 Version](https://downloads.wordpress.org/plugin/required-fields.1.5.zip)
+* [Download 1.5 Version](https://downloads.wordpress.org/plugin/required-fields.1.5.zip)
 
 = 1.4 =
 * Set Required Fields For Pages & important Bugs
-* [1.4 Version](https://downloads.wordpress.org/plugin/required-fields.1.4.zip)
+* [Download 1.4 Version](https://downloads.wordpress.org/plugin/required-fields.1.4.zip)
 
 = 1.3 =
 * Update CSS & Fix Bugs
-* [1.3 Version](https://downloads.wordpress.org/plugin/required-fields.1.3.zip)
+* [Download 1.3 Version](https://downloads.wordpress.org/plugin/required-fields.1.3.zip)
 
 = 1.2 =
 * Fix Bugs & Set Custom Alerts Message
-* [1.2 Version](https://downloads.wordpress.org/plugin/required-fields.1.2.zip)
+* [Download 1.2 Version](https://downloads.wordpress.org/plugin/required-fields.1.2.zip)
 
 = 1.1 =
 * Update CSS & Fix Bugs
-* [1.1 Version](https://downloads.wordpress.org/plugin/required-fields.1.1.zip)
+* [Download 1.1 Version](https://downloads.wordpress.org/plugin/required-fields.1.1.zip)
 
 = 1.0 =
 * First stable release
-* [1.0 Version](https://downloads.wordpress.org/plugin/required-fields.1.0.zip)
+* [Download 1.0 Version](https://downloads.wordpress.org/plugin/required-fields.1.0.zip)
