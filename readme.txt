@@ -1,10 +1,10 @@
 === Required Fields ===
 Contributors: NikosTsolakos
 Donate link: http://www.nikostsolakos.tk
-Tags: required, fields, categories, tags, thumbnail Image, required fields, required categories, required tags, required thumbnail Image
+Tags: required, fields, categories, tags, thumbnail Image, excerpt, required fields, required categories, required tags, required thumbnail Image
 Requires at least: 3.x
 Tested up to: 4.1
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,7 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 * Set Custom Alerts Message
 * Set Required Fields For Pages
 * Set On/Off Required Fields For Drafts
+* Set On/Off Required Fields For Excerpt
 
 ### Rate This Plugin
 
@@ -69,7 +70,15 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 = 1.5 =
 * Set On/Off Required Fields For Drafts
 
+= 1.6 =
+* Fix Importants bugs
+* Set On/Off Required Fields For Excerpt
+
 == Changelog ==
+
+= 1.6 =
+* Set On/Off Required Fields For Excerpt
+* [Download 1.6 Version](https://downloads.wordpress.org/plugin/required-fields.1.6.zip)
 
 = 1.5 =
 * Set On/Off Required Fields For Drafts
@@ -93,4 +102,4 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 
 = 1.0 =
 * First stable release
-* [Download 1.0 Version](https://downloads.wordpress.org/plugin/required-fields.1.0.zip)
+* [Download 1.0 Version](https://downloads.wordpress.org/plugin/required-fields.1.0.zip)=== Required Fields ===
