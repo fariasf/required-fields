@@ -1,9 +1,9 @@
 <?php
 /*
 * Plugin Name: Required Fields
-* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.5.zip
+* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.6.zip
 * Description: Required Fields can check if you have fill in all the fields
-* Version: 1.5
+* Version: 1.6
 * Author: NikosTsolakos
 * Author URI: https://profiles.wordpress.org/nikostsolakos/#content-plugins
 * License: GPLv2
@@ -25,15 +25,16 @@ function rf_activated()
 	$default_settings = array(
         'rf_enabled_settings' => '0',
         'rf_for_page_enabled' => '',
-        'rf_post_draft' => '',
-        'rf_page_draft' => '',
+        'rf_save_draft' => '',
 		'rf_image_for_page' => '',
 		'rf_title_for_page' => '',
 		'rf_title_settings' => '0',
+		'rf_excerpt_settings' => '0',
 		'rf_category_settings' => '0',
 		'rf_tag_settings' => '0',
 		'rf_image_settings' => '0',
 		'rf_title_error' => 'Title is required',
+		'rf_excerpt_error' => 'Excerpt is required',
 		'rf_cat_error' => 'Categories are required',
 		'rf_tag_error' => 'Please set less one tag',
 		'rf_img_error' => 'Post Thumbnail is required'
@@ -60,15 +61,21 @@ function rf_settings_init()
 	// Main Section
 	add_settings_section('rf_main_section', '<h3 style="text-align: center;border: solid 1px #D23733;background: #D23733;color: white;">Required Fields For Post</h3>', 'rf_main_section_text', __FILE__);
 	// Fields Of Main Section
-	add_settings_field('rf_post_draft', 'Save Draft For Post:', 'rf_post_draft', __FILE__, 'rf_main_section');
 	add_settings_field('rf_title_settings', 'Set Title Required:', 'rf_title_settings', __FILE__, 'rf_main_section');
+	add_settings_field('rf_excerpt_settings', 'Set Excerpt Required:', 'rf_excerpt_settings', __FILE__, 'rf_main_section');
 	add_settings_field('rf_category_settings', 'Set Categories Required:', 'rf_category_settings', __FILE__, 'rf_main_section');
 	add_settings_field('rf_tag_settings', 'Set Tags Required:', 'rf_tag_settings', __FILE__, 'rf_main_section');
-	add_settings_field('rf_image_settings', 'Set thumbnail Required:', 'rf_image_settings', __FILE__, 'rf_main_section');
+	add_settings_field('rf_image_settings', 'Set Featured Image Required:', 'rf_image_settings', __FILE__, 'rf_main_section');
+	// Save Draft
+	add_settings_section('rf_save_draft_section', 'Save Drafts', 'rf_save_draft_text', rf_save_draft_text);
+	// Fields of Save Draft
+	add_settings_field('rf_save_draft', 'Save Drafts:', 'rf_save_draft', __FILE__, 'rf_save_draft_section');
+	
 	// Error Logs
 	add_settings_section('rf_error_logs', '<div id="advanced"><a href="#collapse1">Set Error Logs</a></div>', 'rf_error_logs_text', rf_error_logs_text);
 	// Fields Of Error logs
 	add_settings_field('rf_title_error', 'Set Error For Title:', 'rf_title_error', __FILE__, 'rf_error_logs');
+	add_settings_field('rf_excerpt_error', 'Set Error For Excerpt:', 'rf_excerpt_error', __FILE__, 'rf_error_logs');
 	add_settings_field('rf_cat_error', 'Set Error For Categories:', 'rf_cat_error', __FILE__, 'rf_error_logs');
 	add_settings_field('rf_tag_error', 'Set Error For Tags:', 'rf_tag_error', __FILE__, 'rf_error_logs');
 	add_settings_field('rf_img_error', 'Set Error For Post thumbnail:', 'rf_img_error', __FILE__, 'rf_error_logs');
@@ -78,7 +85,6 @@ function rf_settings_init()
 	add_settings_field('rf_for_page_enabled', 'Set Required Fields:', 'rf_for_page_enabled', __FILE__, 'rf_for_page');
 	add_settings_field('rf_image_for_page', 'Image For Page:', 'rf_image_for_page', __FILE__, 'rf_for_page');
 	add_settings_field('rf_title_for_page', 'Tag For Page:', 'rf_title_for_page', __FILE__, 'rf_for_page');
-	add_settings_field('rf_page_draft', 'Save Drafts For Page:', 'rf_page_draft', __FILE__, 'rf_for_page');
 
 }
 // Add rf_settings_init to Admin Section
@@ -127,16 +133,6 @@ function rf_for_page_text()
 	echo '<div id="collapse2" style="display:none"><div id="contact_main" style="width:100%; height:100%;"><div class="content" style=" padding: 5px; ">';
 	echo '<table class="form-table"><tbody>';
 	
-	/* SAVE DRAFT FOR PAGE */
-	if (!isset($opt['rf_page_draft']))
-	{
-		$value = $default_settings['rf_page_draft'];
-		echo '<tr><th scope="row">Save Draft For Page: </th><td><div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_page_draft" style="display: none;" name="rf_settings[rf_page_draft]" '.$value.' /><label for="rf_page_draft"></label></div></td></tr>';
-	} else {
-		$value = $opt['rf_page_draft'];
-		echo '<tr><th scope="row">Save Draft For Page: </th><td><div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_page_draft" style="display: none;" name="rf_settings[rf_page_draft]" checked /><label for="rf_page_draft"></label></div></td></tr>';
-	}
-	/* END SAVE DRAFT FOR PAGE */
 	
 	/* FOR PAGE TITLE */
 	if (!isset($opt['rf_title_for_page']))
@@ -156,7 +152,7 @@ function rf_for_page_text()
 		echo '<tr><th scope="row">Set Image For Page: </th><td><div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_image_for_page" style="display: none;" name="rf_settings[rf_image_for_page]" '.$value.' /><label for="rf_image_for_page"></label></div></td></tr>';
 	} else {
 		$value = $opt['rf_image_for_page'];
-		echo '<tr><th scope="row">Set Image For Page: </th><td><div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_image_for_page" style="display: none;" name="rf_settings[rf_image_for_page]" checked /><label for="rf_image_for_page"></label></div></td></tr>';
+		echo '<tr><th scope="row">Set Featured Image For Page: </th><td><div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_image_for_page" style="display: none;" name="rf_settings[rf_image_for_page]" checked /><label for="rf_image_for_page"></label></div></td></tr>';
 	}
 	/* END FOR PAGE IMAGE */
 	
@@ -168,6 +164,7 @@ function rf_error_logs_text()
 	$opt = get_option( 'rf_settings' );
 	echo '<div id="collapse1" style="display:none"><div id="contact_main" style="width:100%; height:100%;"><div class="content" style=" padding: 5px; ">';
 	echo '<table class="form-table"><tbody>';
+	
 	/* Title Error Logs */
 	if (!isset($opt['rf_title_error']))
 	{
@@ -178,6 +175,18 @@ function rf_error_logs_text()
 		echo '<tr><th scope="row">Set Error Log For Title</th><td> <div><input type="text"  value="'.$value.'" id="rf_title_error" name="rf_settings[rf_title_error]" /></div></td></tr>';
 	}
 	/* END Title Error Logs */
+	
+	/* Excerpt Error Logs */
+	if (!isset($opt['rf_excerpt_error']))
+	{
+		$value = $default_settings['rf_excerpt_error'];
+		echo '<tr><th scope="row">Set Error Log For Excerpt</th><td><div><input type="text"  value="'.$value.'" id="rf_excerpt_error" name="rf_settings[rf_excerpt_error]" /></div></td></tr>';
+	} else {
+		$value = $opt['rf_excerpt_error'];
+		echo '<tr><th scope="row">Set Error Log For Excerpt</th><td> <div><input type="text"  value="'.$value.'" id="rf_excerpt_error" name="rf_settings[rf_excerpt_error]" /></div></td></tr>';
+	}
+	/* END Excerpt Error Logs */
+	
 	/* Category Error Logs */
 	if (!isset($opt['rf_cat_error']))
 	{
@@ -211,16 +220,16 @@ function rf_error_logs_text()
 	echo '</table></tbody></div></div></div>';
 }
 
-function rf_post_draft()
+function rf_save_draft_text()
 {
 	$opt = get_option('rf_settings');
-	if (!isset($opt['rf_post_draft']))
+	if (!isset($opt['rf_save_draft']))
 	{
 		$value = '';
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_post_draft" style="display: none;" name="rf_settings[rf_post_draft]" '.$value.' /><label for="rf_post_draft"></label></div>';
+		echo '<div class="slideThree" style=" margin: 0px 16%; "><input type="checkbox" class="ch_location" value="None" id="rf_save_draft" style="display: none;" name="rf_settings[rf_save_draft]" '.$value.' /><label for="rf_save_draft"></label></div>';
 	} else {
-		$value = $opt['rf_post_draft'];
-		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_post_draft" style="display: none;" name="rf_settings[rf_post_draft]" checked /><label for="rf_post_draft"></label></div>';
+		$value = $opt['rf_save_draft'];
+		echo '<div class="slideThree" style=" margin: 0px 16%; "><input type="checkbox" class="ch_location" value="None" id="rf_save_draft" style="display: none;" name="rf_settings[rf_save_draft]" checked /><label for="rf_save_draft"></label></div>';
 	}
 
 }
@@ -235,6 +244,19 @@ function rf_title_settings()
 	} else {
 		$value = $opt['rf_title_settings'];
 		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_title_settings" style="display: none;" name="rf_settings[rf_title_settings]" checked /><label for="rf_title_settings"></label></div>';
+	}
+}
+
+function rf_excerpt_settings()
+{
+	$opt = get_option('rf_settings');
+	if (!isset($opt['rf_excerpt_settings']))
+	{
+		$value = '';
+		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_excerpt_settings" style="display: none;" name="rf_settings[rf_excerpt_settings]" '.$value.' /><label for="rf_excerpt_settings"></label></div>';
+	} else {
+		$value = $opt['rf_excerpt_settings'];
+		echo '<div class="slideThree" style=" top: 0px; "><input type="checkbox" class="ch_location" value="None" id="rf_excerpt_settings" style="display: none;" name="rf_settings[rf_excerpt_settings]" checked /><label for="rf_excerpt_settings"></label></div>';
 	}
 }
 
@@ -316,6 +338,10 @@ function rf_admin_panel()
 									<?php rf_for_page_enabled();?>
 										<label for="rf_for_page_enabled"></label>
 									</div>
+							</section>
+							<section style=" margin-bottom: -30px !important; ">
+								<p>Required Fields For Drafts: </p>
+									<?php rf_save_draft_text(); ?>
 							</section>
 						</span>
 					</div>
@@ -420,6 +446,8 @@ function required_fields()
 		else
 		{
 			$rf_style = "{'background':'#FFEBE8', 'border':'#CC0000 solid 1px'}";
+			
+			/************************************************************ TITLE ************************************************************/
 			if ( isset($opt['rf_title_settings']) )
 			{	
 				if (isset($opt['rf_for_page_enabled']) && isset($opt['rf_title_for_page']))
@@ -429,7 +457,7 @@ function required_fields()
 					{	
 						echo "<script type='text/javascript'>\n";
 						  echo "
-						  jQuery('#publish"; if (isset($opt['rf_page_draft'])) {echo ', #save-post';} echo "').click(function(){
+						  jQuery('#publish"; if (isset($opt['rf_save_draft'])) {echo ", #save-post";} echo "').click(function(){
 								var testervar = jQuery('[id^=\"titlediv\"]').find('#title');
 								if (testervar.val().length < 1)
 								{
@@ -450,7 +478,7 @@ function required_fields()
 					{	
 						echo "<script type='text/javascript'>\n";
 						  echo "
-						  jQuery('#publish"; if (isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').click(function(){
+						  jQuery('#publish"; if (isset($opt['rf_save_draft'])) {echo ", #save-post";} echo "').click(function(){
 								var testervar = jQuery('[id^=\"titlediv\"]')
 								.find('#title');
 								if (testervar.val().length < 1)
@@ -467,7 +495,34 @@ function required_fields()
 					}
 				}
 			}
+			/************************************************************ /TITLE ************************************************************/
 			
+			/************************************************************ EXCERPT ***********************************************************/
+			if ( isset( $opt['rf_excerpt_settings'] ) )
+			{
+				global $post_type;
+				if($post_type == 'post')
+				{
+					echo "<script type='text/javascript'>\n";
+						  echo "
+						  jQuery('#publish"; if (isset($opt['rf_save_draft'])) {echo ", #save-post";} echo "').click(function(){
+								var ex_testervar = jQuery('[id^=\"postexcerpt\"]').find('#excerpt');
+								if (ex_testervar.val().length < 1)
+								{
+									jQuery('[id^=\"postexcerpt\"]').css( ".$rf_style." );
+									setTimeout(\"jQuery('#ajax-loading').css('visibility', 'hidden');\", 100);
+									alert('".$opt['rf_excerpt_error']."');
+									setTimeout(\"jQuery('#publish').removeClass('button-primary-disabled');\", 100);
+									return false;
+								}
+							});
+						  ";
+					echo "</script>\n";
+				}
+			}
+			/************************************************************ /EXCERPT ***********************************************************/
+			
+			/************************************************************ CATEGORIES ********************************************************/
 			if ( isset($opt['rf_category_settings']) )
 			{
 				global $post_type;
@@ -475,7 +530,7 @@ function required_fields()
 				{	
 					echo "<script>
 							jQuery(function($){
-								$('#publish"; if (isset($opt['rf_page_draft']) || isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').click(function(e){
+								$('#publish"; if (isset($opt['rf_save_draft'])) {echo ", #save-post";} echo "').click(function(e){
 									if($('#taxonomy-category input:checked').length==0){
 										jQuery('[id^=\"categorydiv\"]').css( ".$rf_style." );
 										alert('" . __(''.$opt['rf_cat_error'].'', 'require-post-category') . "');
@@ -503,6 +558,9 @@ function required_fields()
 							</script>";
 				}
 			}
+			/************************************************************ /CATEGORIES ************************************************************/
+			
+			/************************************************************ FEATURED IMAGE *********************************************************/
 			if ( isset($opt['rf_image_settings']) )
 			{
 				if (isset($opt['rf_for_page_enabled']) && isset($opt['rf_image_for_page']))
@@ -512,12 +570,12 @@ function required_fields()
 					{
 						echo "<script language='javascript' type='text/javascript'>
 							jQuery(function($){
-								jQuery('#post').submit(function() {
+								$('#publish"; if (isset($opt['rf_save_draft'])) {echo ", #save-post";} echo "').click(function(e){
 									if (jQuery('#set-post-thumbnail').find('img').size() < 1) {
 										jQuery('[id^=\'postimagediv\']').css( ".$rf_style." );
 										alert('".$opt['rf_img_error']."');
 										jQuery('#ajax-loading').hide();
-										jQuery('#publish"; if (isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').removeClass('button-primary-disabled');
+										jQuery('#publish"; if (isset($opt['rf_save_draft'])) {echo ", #save-post";} echo "').removeClass('button-primary-disabled');
 										return false;
 									}
 								});
@@ -532,12 +590,12 @@ function required_fields()
 					{
 						echo "<script language='javascript' type='text/javascript'>
 							jQuery(function($){
-								jQuery('#post').submit(function() {
+								$('#publish"; if (isset($opt['rf_save_draft'])) {echo ", #save-post";} echo "').click(function(e){
 									if (jQuery('#set-post-thumbnail').find('img').size() < 1) {
 										jQuery('[id^=\'postimagediv\']').css( ".$rf_style." );
 										alert('".$opt['rf_img_error']."');
 										jQuery('#ajax-loading').hide();
-										jQuery('#publish"; if (isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').removeClass('button-primary-disabled');
+										jQuery('#publish"; if (isset($opt['rf_save_draft'])) {echo ", #save-post";} echo "').removeClass('button-primary-disabled');
 										return false;
 									}
 								});
@@ -546,14 +604,16 @@ function required_fields()
 					}
 				}
 			}
+			/************************************************************ /FEATURED IMAGE *************************************************/
 			
+			/************************************************************ TAGS ************************************************************/
 			if ( isset($opt['rf_tag_settings']) ) 
 			{
 				global $post_type;
 				if($post_type=='post'){
 					echo "<script>
 					jQuery(function($){
-						$('#publish"; if (isset($opt['rf_page_draft']) || isset($opt['rf_post_draft'])) {echo ', #save-post';} echo "').click(function(e){
+						$('#publish"; if ( isset( $opt['rf_save_draft'] ) ) {echo ", #save-post";} echo "').click(function(e){
 							if($('#post_tag .tagchecklist span').length==0){
 								jQuery('[id^=\"tagsdiv-post_tag\"]').css( ".$rf_style." );
 								alert('".$opt['rf_tag_error']."');
@@ -581,6 +641,7 @@ function required_fields()
 					</script>";
 				}
 			}
+			/************************************************************ /TAGS ************************************************************/
 		}
 	}
 	add_action('admin_footer-post.php', 'required_fields');
