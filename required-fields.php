@@ -1,7 +1,7 @@
 <?php
 /*
 * Plugin Name: Required Fields
-* Plugin URI: https://downloads.wordpress.org/plugin/required-fields.1.6.zip
+* Plugin URI: https://wordpress.org/plugins/required-fields/
 * Description: Required Fields can check if you have fill in all the fields
 * Version: 1.6
 * Author: NikosTsolakos
