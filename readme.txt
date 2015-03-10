@@ -32,6 +32,10 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 
 * [Required Fields](https://wordpress.org/support/view/plugin-reviews/required-fields)
 
+### Demo
+
+* Required Fields [RFields](https://plugins.nikostsolakos.com/wp-login.php)
+
 ### My Plugins
 
 * [Custom Preloader](https://wordpress.org/plugins/custom-preloader/)
