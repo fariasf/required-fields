@@ -1,14 +1,14 @@
 === Required Fields ===
 Contributors: NikosTsolakos
-Donate link: http://www.nikostsolakos.tk
-Tags: required, fields, categories, tags, thumbnail Image, excerpt, required fields, required categories, required tags, required thumbnail Image
+Donate link: https://www.paypal.com/gr/cgi-bin/webscr?cmd=_flow&SESSION=DKQvmV3ATuEMCI7ZV782A_nXaIZuA7iXmRD_gRaGdBvnDfZZAfjSs59yYgG&dispatch=5885d80a13c0db1f8e263663d3faee8da8649a435e198e44a05ba053bc68d12e
+Tags: required, fields, categories, tags, taxonomy, taxonomies, Custom taxonomies, thumbnail Image, excerpt, required fields, required categories, required tags, required thumbnail Image
 Requires at least: 3.x
-Tested up to: 4.1
-Stable tag: 1.6
+Tested up to: 4.1.1
+Stable tag: 1.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Required Fields can check if you have fill in all the fields you have enabled
+Required Fields can check if you have fill in all the fields you have enabled.
 if you forgotten something it reminds you that you have forgot something
 
 == Description ==
@@ -25,6 +25,8 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 * Set Required Fields For Pages
 * Set On/Off Required Fields For Drafts
 * Set On/Off Required Fields For Excerpt
+* Set On/Off Required Fields For Custom Tags
+
 
 ### Rate This Plugin
 
@@ -74,7 +76,14 @@ You Can enable Categories, Tags, thumbnail, title if you have forgotten somethin
 * Fix Importants bugs
 * Set On/Off Required Fields For Excerpt
 
+= 1.7 =
+* Set On/Off Required Fields For Custom Tags
+
 == Changelog ==
+
+= 1.7 =
+* Set On/Off Required Fields For Custom Tags
+* [Download 1.7 Version](https://downloads.wordpress.org/plugin/required-fields.1.7.zip)
 
 = 1.6 =
 * Set On/Off Required Fields For Excerpt

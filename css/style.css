@@ -1,3 +1,44 @@
+.content {
+						display: block;
+						padding: 15px;
+					}
+					.adv-margin {
+						padding-bottom: 20px;
+					}
+					.mr {
+						margin-right: 50px;
+					}
+					h3 {
+						padding: 0!important;
+					}
+					.form-table, .form-table td, .form-table td p, .form-table th, .form-wrap label {
+						padding-left: 10px!important;					}
+					input {
+						border-radius: 15px;
+					}
+					a {
+						color: #000000;
+					}
+					.button-primary {
+						background: #D23733!important;
+						border-color: #AE322F!important;
+						-webkit-box-shadow: inset 0 1px 0 rgba(239, 115, 112, 1),0 1px 0 rgba(0,0,0,.15)!important;
+						box-shadow: inset 0 1px 0 rgba(239, 115, 112, 1),0 1px 0 rgba(0,0,0,.15)!important;
+						border-radius: 25px!important;
+					}
+					#advanced {
+						text-align: center; border: solid 1px #D23733; background: #D23733;
+					}
+					#advanced a {
+						color: #ffffff;
+					}
+					#forpage {
+						text-align: center; border: solid 1px #D23733; background: #D23733;
+					}
+					#forpage a {
+						color: #ffffff;
+					}
+
 .slideThree {
 	width: 80px;
 	height: 26px;
@@ -71,4 +112,29 @@
 
 .slideThree input[type=checkbox]:checked + label {
 	left: 43px;
+}
+
+.extra_settings {
+	position: absolute;
+	margin-left: 525px;
+	margin-top: 27px;
+	padding-bottom: 30%;
+	border-style: dotted!important;
+	border: solid 2px black;
+	border-bottom: none 0px;
+	border-right: none 0px;
+	border-top: none 0px;
+}
+
+.extra_settings h3 {
+	margin-left: 215px!important;
+    padding-top: 3px!important;
+    text-decoration: underline;
+    font-style: oblique;
+}
+
+.c_t_id {
+	width: 95%;
+	z-index: 999;
+	position: relative;
 }
