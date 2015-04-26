@@ -1,6 +1,6 @@
 === Required Fields ===
 Contributors: NikosTsolakos
-Donate link: https://www.paypal.com/gr/cgi-bin/webscr?cmd=_flow&SESSION=DKQvmV3ATuEMCI7ZV782A_nXaIZuA7iXmRD_gRaGdBvnDfZZAfjSs59yYgG&dispatch=5885d80a13c0db1f8e263663d3faee8da8649a435e198e44a05ba053bc68d12e
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MM7GG79LVV4T8
 Tags: required, fields, categories, tags, taxonomy, taxonomies, Custom taxonomies, thumbnail Image, excerpt, required fields, required categories, required tags, required thumbnail Image
 Requires at least: 3.x
 Tested up to: 4.1.1
